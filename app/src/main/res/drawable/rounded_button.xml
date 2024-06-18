@@ -1,0 +1,7 @@
+<!-- res/drawable/rounded_button.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#0090FF"/> <!-- 按钮颜色 -->
+    <corners android:radius="100dp"/> <!-- 圆角半径，设置为足够大以形成圆形 -->
+    <stroke android:width="2dp" android:color="#FFFFFF"/> <!-- 可选：边框颜色和宽度 -->
+</shape>

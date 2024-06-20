@@ -31,5 +31,14 @@ object RetrofitClient {
         apiService = retrofit.create(ApiService::class.java)
     }
 
+    fun buildRetrofit(baseUrl: String) {
+        retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create()) // 添加Gson转换器
+            .client(okHttpClient) // 设置OkHttp客户端
+            .build()
+        apiService = retrofit.create(ApiService::class.java)
+    }
+
     var apiService: ApiService = retrofit.create(ApiService::class.java)
 }

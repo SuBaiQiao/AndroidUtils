@@ -92,4 +92,7 @@ dependencies {
     implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv5:v8.6.0-release-jitpack")
     implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-x86:v8.6.0-release-jitpack")
     implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-x64:v8.6.0-release-jitpack")
+
+    // 权限请求框架：https://github.com/getActivity/XXPermissions
+    implementation("com.github.getActivity:XXPermissions:18.63")
 }

@@ -26,6 +26,12 @@
                 android:layout_height="wrap_content"
                 android:text="VideoPlayer"
                 android:id="@+id/main_activity_goto_video_player_btn"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="权限授予"
+                android:layout_below="@id/main_activity_goto_video_player_btn"
+                android:id="@+id/main_activity_permissoins_btn"/>
 
             <Button
                 android:layout_width="200dp"

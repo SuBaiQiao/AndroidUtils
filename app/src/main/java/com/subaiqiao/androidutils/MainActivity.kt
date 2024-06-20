@@ -1,6 +1,7 @@
 package com.subaiqiao.androidutils
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,8 +13,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.subaiqiao.androidutils.api.RetrofitClient
 import com.subaiqiao.androidutils.constant.Constant
-import com.subaiqiao.androidutils.modules.systemConfig.service.SystemConfigService
 import com.subaiqiao.androidutils.modules.systemConfig.service.SystemConfigServiceImpl
+import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivity
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity_layout)
         val mainActivityLockScreenBtn: Button = findViewById(R.id.main_activity_lock_screen_btn)
+        val mainActivityGotoVideoPlayerBtn: Button = findViewById(R.id.main_activity_goto_video_player_btn)
         val mainActivityLocationIpText: EditText = findViewById(R.id.main_activity_location_ip_text)
         val networkBaseUrl = initNetworkBaseUrl()
         mainActivityLocationIpText.setText(networkBaseUrl)
@@ -65,6 +67,9 @@ class MainActivity : ComponentActivity() {
                     e.printStackTrace()
                 }
             }
+        }
+        mainActivityGotoVideoPlayerBtn.setOnClickListener {
+            startActivity(Intent(this, VideoPlayerActivity::class.java))
         }
     }
 

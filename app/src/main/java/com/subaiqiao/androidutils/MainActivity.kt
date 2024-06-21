@@ -16,6 +16,7 @@ import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.subaiqiao.androidutils.api.RetrofitClient
 import com.subaiqiao.androidutils.constant.Constant
+import com.subaiqiao.androidutils.modules.camera.activity.CameraActivity
 import com.subaiqiao.androidutils.modules.systemConfig.service.SystemConfigServiceImpl
 import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivity
 import kotlinx.coroutines.launch
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.main_activity_layout)
         val mainActivityLockScreenBtn: Button = findViewById(R.id.main_activity_lock_screen_btn)
         val mainActivityGotoVideoPlayerBtn: Button = findViewById(R.id.main_activity_goto_video_player_btn)
+        val mainActivityCameraBtn: Button = findViewById(R.id.main_activity_camera_btn)
         val mainActivityPermissoinsBtn: Button = findViewById(R.id.main_activity_permissoins_btn)
         val mainActivityLocationIpText: EditText = findViewById(R.id.main_activity_location_ip_text)
         val networkBaseUrl = initNetworkBaseUrl()
@@ -74,6 +76,9 @@ class MainActivity : ComponentActivity() {
         }
         mainActivityGotoVideoPlayerBtn.setOnClickListener {
             startActivity(Intent(this, VideoPlayerActivity::class.java))
+        }
+        mainActivityCameraBtn.setOnClickListener {
+            startActivity(Intent(this, CameraActivity::class.java))
         }
         mainActivityPermissoinsBtn.setOnClickListener {
             XXPermissions.with(this)

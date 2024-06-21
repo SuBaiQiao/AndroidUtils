@@ -95,4 +95,5 @@ dependencies {
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
     implementation("com.github.getActivity:XXPermissions:18.63")
+    implementation("com.leon:lfilepickerlibrary:1.8.0")
 }

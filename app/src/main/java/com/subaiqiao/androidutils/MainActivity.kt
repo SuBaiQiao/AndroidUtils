@@ -84,6 +84,8 @@ class MainActivity : ComponentActivity() {
             XXPermissions.with(this)
                 // 申请单个权限
                 .permission(Permission.RECORD_AUDIO)
+                .permission(Permission.CAMERA)
+                .permission(Permission.Group.STORAGE)
                 // 申请多个权限
                 .permission(Permission.Group.CALENDAR)
                 // 设置权限请求拦截器（局部设置）

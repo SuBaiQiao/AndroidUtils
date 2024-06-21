@@ -69,7 +69,7 @@ class CameraActivity : ComponentActivity() {
                 //FileProvider是一种特殊的ContentProvider
                 FileProvider.getUriForFile(
                     this,
-                    "com.subaiqiao.androidUtils.fileProvider",
+                    "com.subaiqiao.androidutils.fileprovider",
                     outPutImage
                 )
             } else {

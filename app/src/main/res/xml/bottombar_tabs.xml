@@ -1,0 +1,11 @@
+<tabs>
+    <tab
+        id="@+id/tab_1"
+        title="锁屏" />
+    <tab
+        id="@+id/tab_2"
+        title="首页" />
+    <tab
+        id="@+id/tab_3"
+        title="设置" />
+</tabs>

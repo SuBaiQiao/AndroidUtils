@@ -9,6 +9,7 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
@@ -55,9 +56,13 @@ class CameraActivity : ComponentActivity() {
         }
         val activityCameraBtn: Button = findViewById(R.id.activity_camera_btn)
         activityCameraImageView = findViewById(R.id.activity_camera_image_view)
+        println("地址：" + MediaStore.Images.Media.EXTERNAL_CONTENT_URI.path)
+        println("地址：" + externalCacheDir.toString())
+        println("地址：" + getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.path.toString())
         activityCameraBtn.setOnClickListener {
             //创建一个file对象，指明照片的存储路径是缓存的目录和为拍下的照片取名为output_image.jpg
-            outPutImage = File(externalCacheDir, "output_image.jpg")
+//            outPutImage = File(externalCacheDir, "output_image.jpg")
+            outPutImage = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.path.toString(), "output_image.jpg")
             if (outPutImage.exists()) {
                 outPutImage.delete()
             }
@@ -73,6 +78,7 @@ class CameraActivity : ComponentActivity() {
             } else {
                 Uri.fromFile(outPutImage)
             }
+            println("uri：" + imageUri.toString())
             val intent = Intent("android.media.action.IMAGE_CAPTURE")
             //调用指定了图片输出的地址，当相机被调用的时候，指定了拍照之后的存储地址
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)

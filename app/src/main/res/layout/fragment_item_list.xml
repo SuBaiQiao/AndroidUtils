@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list"
+    android:name="com.subaiqiao.androidutils.modules.home.HomeFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".modules.home.fragment.HomeFragment"
+    tools:listitem="@layout/fragment_item" >
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VideoPlayer"
+        android:id="@+id/main_activity_goto_video_player_btn"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="权限授予"
+        android:layout_below="@id/main_activity_goto_video_player_btn"
+        android:id="@+id/main_activity_permissoins_btn"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="拍照"
+        android:layout_below="@id/main_activity_permissoins_btn"
+        android:id="@+id/main_activity_camera_btn"/>
+
+
+</RelativeLayout>

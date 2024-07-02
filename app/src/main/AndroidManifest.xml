@@ -46,10 +46,12 @@
             android:authorities="com.subaiqiao.androidutils.fileprovider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths"
+                tools:replace="android:resource"/>
         </provider>
     </application>
 

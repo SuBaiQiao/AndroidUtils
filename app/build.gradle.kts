@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -63,6 +64,10 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.preference)
+//    implementation(libs.androidx.preference.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,6 +75,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    debugImplementation("androidx.appcompat:appcompat:1.7.0")
+    debugImplementation("androidx.preference:preference-ktx:1.2.1")
 
     implementation(libs.retrofit) // 使用最新版本
     implementation(libs.okhttp) // 使用最新版本
@@ -96,4 +104,7 @@ dependencies {
     // 权限请求框架：https://github.com/getActivity/XXPermissions
     implementation("com.github.getActivity:XXPermissions:18.63")
     implementation("com.leon:lfilepickerlibrary:1.8.0")
+
+
+    implementation("com.roughike:bottom-bar:2.3.1")
 }

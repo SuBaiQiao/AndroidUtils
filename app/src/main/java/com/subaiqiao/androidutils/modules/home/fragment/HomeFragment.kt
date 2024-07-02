@@ -4,8 +4,6 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,22 +13,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.subaiqiao.androidutils.R
-import com.subaiqiao.androidutils.api.RetrofitClient
-import com.subaiqiao.androidutils.constant.Constant
 import com.subaiqiao.androidutils.modules.camera.activity.CameraActivity
 import com.subaiqiao.androidutils.modules.home.adapter.HomeRecyclerViewAdapter
 import com.subaiqiao.androidutils.modules.home.placeholder.PlaceholderContent
-import com.subaiqiao.androidutils.modules.systemConfig.service.SystemConfigServiceImpl
 import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivity
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 
 /**
  * A fragment representing a list of Items.
@@ -56,7 +47,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.d(TAG, "onCreateView: ")
-        val view = inflater.inflate(R.layout.fragment_item_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
         context = requireContext()
         this.view = view
         // Set the adapter

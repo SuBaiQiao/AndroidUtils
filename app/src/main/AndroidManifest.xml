@@ -8,11 +8,16 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission-group.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<!--    读取通讯录-->
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-<!--    写入通讯录-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 读取通讯录 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- 写入通讯录 -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+<!--    无线网状态-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<!--    网络连接状态-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +31,9 @@
         android:theme="@style/Theme.AndroidUtils"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".modules.privacyData.wifi.WifiManagerActivity"
+            android:exported="false" />
         <activity
             android:name=".modules.privacyData.contactPerson.ContactPersonActivity"
             android:exported="false" />

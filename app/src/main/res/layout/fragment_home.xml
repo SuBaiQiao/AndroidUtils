@@ -35,5 +35,12 @@
         android:layout_below="@id/main_activity_camera_btn"
         android:id="@+id/main_activity_contact_person_btn"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="无线网络信息"
+        android:layout_below="@id/main_activity_contact_person_btn"
+        android:id="@+id/main_activity_wifi_manager_btn"/>
+
 
 </RelativeLayout>

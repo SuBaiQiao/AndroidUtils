@@ -22,6 +22,7 @@ import com.subaiqiao.androidutils.modules.camera.activity.CameraActivity
 import com.subaiqiao.androidutils.modules.home.adapter.HomeRecyclerViewAdapter
 import com.subaiqiao.androidutils.modules.home.placeholder.PlaceholderContent
 import com.subaiqiao.androidutils.modules.privacyData.contactPerson.ContactPersonActivity
+import com.subaiqiao.androidutils.modules.privacyData.wifi.WifiManagerActivity
 import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivity
 
 /**
@@ -70,6 +71,7 @@ class HomeFragment : Fragment() {
         val mainActivityCameraBtn: Button = view.findViewById(R.id.main_activity_camera_btn)
         val mainActivityPermissoinsBtn: Button = view.findViewById(R.id.main_activity_permissoins_btn)
         val mainActivityContactPersonBtn: Button = view.findViewById(R.id.main_activity_contact_person_btn)
+        val mainActivityWifiManagerBtn: Button = view.findViewById(R.id.main_activity_wifi_manager_btn)
         mainActivityGotoVideoPlayerBtn.setOnClickListener {
             startActivity(Intent(context, VideoPlayerActivity::class.java))
         }
@@ -78,6 +80,9 @@ class HomeFragment : Fragment() {
         }
         mainActivityContactPersonBtn.setOnClickListener {
             startActivity(Intent(context, ContactPersonActivity::class.java))
+        }
+        mainActivityWifiManagerBtn.setOnClickListener {
+            startActivity(Intent(context, WifiManagerActivity::class.java))
         }
         mainActivityPermissoinsBtn.setOnClickListener {
             XXPermissions.with(this)

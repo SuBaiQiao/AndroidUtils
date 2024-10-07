@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_wifi_manager_constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".modules.privacyData.wifi.WifiManagerActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/wifi_manager_layout_linear1"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wifi_manager_layout_text1"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:text="SSID："/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/wifi_manager_layout_text2"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:layout_below="@+id/wifi_manager_layout_text1"
+            android:text="无线网连接SSID"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifi_manager_layout_linear2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/wifi_manager_layout_linear1">
+
+        <TextView
+            android:id="@+id/wifi_manager_layout_text3"
+            android:layout_width="wrap_content"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="IP：" />
+
+        <TextView
+            android:id="@+id/wifi_manager_layout_text4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/black"
+            android:layout_below="@+id/wifi_manager_layout_text3"
+            android:textSize="18dp"
+            android:text="localhost" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifi_manager_layout_linear3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/wifi_manager_layout_linear2">
+
+        <TextView
+            android:id="@+id/wifi_manager_layout_text5"
+            android:layout_width="wrap_content"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="SPEED：" />
+
+        <TextView
+            android:id="@+id/wifi_manager_layout_text6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/black"
+            android:layout_below="@+id/wifi_manager_layout_text3"
+            android:textSize="18dp"
+            android:text="785 Mbps" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

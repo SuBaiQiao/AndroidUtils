@@ -21,6 +21,7 @@ import com.subaiqiao.androidutils.R
 import com.subaiqiao.androidutils.modules.camera.activity.CameraActivity
 import com.subaiqiao.androidutils.modules.home.adapter.HomeRecyclerViewAdapter
 import com.subaiqiao.androidutils.modules.home.placeholder.PlaceholderContent
+import com.subaiqiao.androidutils.modules.privacyData.contactPerson.ContactPersonActivity
 import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivity
 
 /**
@@ -68,11 +69,15 @@ class HomeFragment : Fragment() {
         val mainActivityGotoVideoPlayerBtn: Button = view.findViewById(R.id.main_activity_goto_video_player_btn)
         val mainActivityCameraBtn: Button = view.findViewById(R.id.main_activity_camera_btn)
         val mainActivityPermissoinsBtn: Button = view.findViewById(R.id.main_activity_permissoins_btn)
+        val mainActivityContactPersonBtn: Button = view.findViewById(R.id.main_activity_contact_person_btn)
         mainActivityGotoVideoPlayerBtn.setOnClickListener {
             startActivity(Intent(context, VideoPlayerActivity::class.java))
         }
         mainActivityCameraBtn.setOnClickListener {
             startActivity(Intent(context, CameraActivity::class.java))
+        }
+        mainActivityContactPersonBtn.setOnClickListener {
+            startActivity(Intent(context, ContactPersonActivity::class.java))
         }
         mainActivityPermissoinsBtn.setOnClickListener {
             XXPermissions.with(this)

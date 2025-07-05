@@ -59,7 +59,7 @@ class VideoPlayerActivity : ComponentActivity() {
             onBackPressed()
         }
         //不需要屏幕旋转
-        videoPlayer.isNeedOrientationUtils = false
+//        videoPlayer.isNeedOrientationUtils = false
         videoPlayer.startPlayLogic()
     }
 

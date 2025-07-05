@@ -86,25 +86,24 @@ dependencies {
     // 如果你需要处理网络请求的日志，可以添加OkHttp的日志拦截器
     implementation(libs.logging.interceptor)
 
-    implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.6.0-release-jitpack")
+    implementation("com.shuyu:gsyVideoPlayer-java:8.1.2")
 
     //是否需要ExoPlayer模式
-    implementation("com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-exo2:v8.6.0-release-jitpack")
+    implementation("com.shuyu:GSYVideoPlayer-exo2:8.1.2")
 
     //是否需要AliPlayer模式
-    implementation("com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-aliplay:v8.6.0-release-jitpack")
+//    implementation("com.shuyu:GSYVideoPlayer-aliplay:8.1.2")
 
     //根据你的需求ijk模式的so
-    implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-arm64:v8.6.0-release-jitpack")
-    implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv7a:v8.6.0-release-jitpack")
-    implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv5:v8.6.0-release-jitpack")
-    implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-x86:v8.6.0-release-jitpack")
-    implementation("com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-x64:v8.6.0-release-jitpack")
+    implementation("com.shuyu:gsyVideoPlayer-arm64:8.1.2")
+    implementation("com.shuyu:gsyVideoPlayer-armv7a:8.1.2")
+    implementation("com.shuyu:gsyVideoPlayer-armv5:8.1.2")
+    implementation("com.shuyu:gsyVideoPlayer-x86:8.1.2")
+    implementation("com.shuyu:gsyVideoPlayer-x64:8.1.2")
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
     implementation("com.github.getActivity:XXPermissions:18.63")
     implementation("com.leon:lfilepickerlibrary:1.8.0")
-
 
     implementation("com.roughike:bottom-bar:2.3.1")
 }

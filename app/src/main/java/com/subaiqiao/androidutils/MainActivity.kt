@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.media3.common.util.ColorParser
 import com.roughike.bottombar.BottomBar
 import com.subaiqiao.androidutils.modules.home.fragment.HomeFragment
 import com.subaiqiao.androidutils.modules.lockScreen.activity.LockScreenFragment

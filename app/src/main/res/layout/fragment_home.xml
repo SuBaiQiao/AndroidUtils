@@ -1,53 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list"
     android:name="com.subaiqiao.androidutils.modules.home.HomeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
     tools:context=".modules.home.fragment.HomeFragment"
-    tools:listitem="@layout/fragment_item" >
+    tools:listitem="@layout/fragment_item">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_activity_goto_video_player_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="VideoPlayer"
-        android:id="@+id/main_activity_goto_video_player_btn"/>
-    <Button
+        android:text="@string/goto_video_player_btn_text"
+        android:background="@drawable/ant_btn_primary_selector"
+        android:textColor="#FFFFFF"
+        android:padding="12dp"
+        android:textAllCaps="false"
+        android:layout_marginTop="8dp"
+        app:backgroundTint="@null"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_activity_permissoins_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="权限授予"
+        android:background="@drawable/ant_btn_primary_selector"
+        android:textColor="#FFFFFF"
         android:layout_below="@id/main_activity_goto_video_player_btn"
-        android:id="@+id/main_activity_permissoins_btn"/>
+        android:textAllCaps="false"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        app:backgroundTint="@null"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_activity_camera_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="拍照"
+        android:text="@string/camera_btn_text"
+        android:background="@drawable/ant_btn_primary_selector"
+        android:textColor="#FFFFFF"
         android:layout_below="@id/main_activity_permissoins_btn"
-        android:id="@+id/main_activity_camera_btn"/>
+        android:textAllCaps="false"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        app:backgroundTint="@null"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_activity_contact_person_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="通讯录读取"
+        android:text="@string/contact_person_btn_text"
+        android:background="@drawable/ant_btn_primary_selector"
+        android:textColor="#FFFFFF"
         android:layout_below="@id/main_activity_camera_btn"
-        android:id="@+id/main_activity_contact_person_btn"/>
+        android:textAllCaps="false"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        app:backgroundTint="@null"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_activity_wifi_manager_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="无线网络信息"
+        android:text="@string/wifi_manager_btn_text"
+        android:background="@drawable/ant_btn_primary_selector"
+        android:textColor="#FFFFFF"
         android:layout_below="@id/main_activity_contact_person_btn"
-        android:id="@+id/main_activity_wifi_manager_btn"/>
+        android:textAllCaps="false"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        app:backgroundTint="@null"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_activity_picture_backup_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="照片信息备份"
+        android:text="@string/picture_backup_btn_text"
+        android:background="@drawable/ant_btn_primary_selector"
+        android:textColor="#FFFFFF"
         android:layout_below="@id/main_activity_wifi_manager_btn"
-        android:id="@+id/main_activity_picture_backup_btn"/>
-
+        android:textAllCaps="false"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        app:backgroundTint="@null"/>
 
 </RelativeLayout>

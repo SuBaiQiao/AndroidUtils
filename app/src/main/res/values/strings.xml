@@ -16,4 +16,9 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="picture_backup_btn_text">照片信息备份</string>
+    <string name="wifi_manager_btn_text">无线网络信息</string>
+    <string name="contact_person_btn_text">通讯录读取</string>
+    <string name="camera_btn_text">拍照</string>
+    <string name="goto_video_player_btn_text">视频播放</string>
 </resources>

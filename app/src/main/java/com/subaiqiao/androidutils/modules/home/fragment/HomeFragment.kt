@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import com.google.android.material.button.MaterialButton
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -75,17 +76,17 @@ class HomeFragment : Fragment() {
 
     private fun init() {
         // 视频播放
-        val mainActivityGotoVideoPlayerBtn: Button = view.findViewById(R.id.main_activity_goto_video_player_btn)
+        val mainActivityGotoVideoPlayerBtn: MaterialButton = view.findViewById(R.id.main_activity_goto_video_player_btn)
         // 拍照
-        val mainActivityCameraBtn: Button = view.findViewById(R.id.main_activity_camera_btn)
+        val mainActivityCameraBtn: MaterialButton = view.findViewById(R.id.main_activity_camera_btn)
         // 权限授予
-        val mainActivityPermissoinsBtn: Button = view.findViewById(R.id.main_activity_permissoins_btn)
+        val mainActivityPermissoinsBtn: MaterialButton = view.findViewById(R.id.main_activity_permissoins_btn)
         // 通讯录读取
-        val mainActivityContactPersonBtn: Button = view.findViewById(R.id.main_activity_contact_person_btn)
+        val mainActivityContactPersonBtn: MaterialButton = view.findViewById(R.id.main_activity_contact_person_btn)
         // 无线网络信息
-        val mainActivityWifiManagerBtn: Button = view.findViewById(R.id.main_activity_wifi_manager_btn)
+        val mainActivityWifiManagerBtn: MaterialButton = view.findViewById(R.id.main_activity_wifi_manager_btn)
         // 照片信息备份按钮
-        val mainActivityPictureBackupBtn: Button = view.findViewById(R.id.main_activity_picture_backup_btn)
+        val mainActivityPictureBackupBtn: MaterialButton = view.findViewById(R.id.main_activity_picture_backup_btn)
         mainActivityGotoVideoPlayerBtn.setOnClickListener {
             startActivity(Intent(context, VideoPlayerActivity::class.java))
         }

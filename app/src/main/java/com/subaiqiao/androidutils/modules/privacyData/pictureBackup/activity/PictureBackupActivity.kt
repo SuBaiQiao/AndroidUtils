@@ -12,20 +12,24 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkInfo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.subaiqiao.androidutils.R
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.adapter.PictureItemAdapter
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.entity.MediaItem
+import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.entity.UploadStatus
+import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.service.UploadManager
+import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.service.UploadService
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -37,6 +41,8 @@ class PictureBackupActivity : AppCompatActivity() {
     }
 
     private val DATE_FORMATTER = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
+    lateinit var uploadManager: UploadManager;
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var backButton: ImageButton
@@ -58,7 +64,7 @@ class PictureBackupActivity : AppCompatActivity() {
         uploadButton = findViewById(R.id.upload_button)
         backButton = findViewById(R.id.back_button)
         selectAllFab = findViewById(R.id.select_all_fab)
-
+        uploadManager = UploadManager(applicationContext)
         // 初始化适配器
         adapter = PictureItemAdapter(
             onSelectedCountChanged = { selectedCount ->
@@ -68,8 +74,6 @@ class PictureBackupActivity : AppCompatActivity() {
                 updateSelectAllFab()
             },
             onItemCheckChanged = { position, isChecked ->
-                // 可以在这里做额外处理（如刷新“全选”按钮状态）
-                Log.d("PictureItemAdapter", "位置 $position 状态变为 $isChecked")
                 updateSelectAllFab()
             }
         )
@@ -90,8 +94,20 @@ class PictureBackupActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             finish()
         }
+        // 全选按钮点击事件
         selectAllFab.setOnClickListener {
             adapter.toggleSelectAll()
+        }
+
+        uploadButton.setOnClickListener {
+            // 文件上传
+            val selectedItems = adapter.currentList.filter { e -> e.selected }
+            if (selectedItems.isEmpty()) {
+                Toast.makeText(this, "请先选择文件", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            startFileUpload(selectedItems)
+//            uploadFilesSequentially(selectedItems, 0)
         }
     }
 
@@ -128,13 +144,11 @@ class PictureBackupActivity : AppCompatActivity() {
                 val id = cursor.getLong(idColumn)
                 val name = cursor.getString(nameColumn)
                 val dateAddedMillis = cursor.getLong(dateColumn) * 1000L
-                // ✅ 格式化时间
                 val date =
                     DATE_FORMATTER.format(Date(dateAddedMillis))
                 val mimeType = cursor.getString(mimeColumn)
                 val uri =
                     ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-                        .toString()
 
                 allMediaItems.add(MediaItem(id, uri, name, dateAddedMillis, date, mimeType))
             }
@@ -157,17 +171,14 @@ class PictureBackupActivity : AppCompatActivity() {
                 val id = cursor.getLong(idColumn)
                 val name = cursor.getString(nameColumn)
                 val dateAddedMillis = cursor.getLong(dateColumn) * 1000L
-                // ✅ 格式化时间
                 val date =
                     DATE_FORMATTER.format(Date(dateAddedMillis))
                 val mimeType = cursor.getString(mimeColumn)
                 val uri =
                     ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
-                        .toString()
                 allMediaItems.add(MediaItem(id, uri, name, dateAddedMillis, date, mimeType, true))
             }
         }
-        // ✅ 按照日期降序排列：最新在前
         val sortedList = allMediaItems.sortedByDescending { it.dateAddedMillis }
         Log.d(TAG, "读取到 ${sortedList.size} 条图片、视频数据")
         adapter.submitList(sortedList)
@@ -177,7 +188,6 @@ class PictureBackupActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             // Android 14+ 使用 MANAGE_EXTERNAL_STORAGE
             if (Environment.isExternalStorageManager()) {
-                // ✅ 已经拥有权限，直接加载数据
                 Log.d(TAG, "已有 MANAGE_EXTERNAL_STORAGE 权限")
                 loadMediaItems()
             } else {
@@ -272,5 +282,104 @@ class PictureBackupActivity : AppCompatActivity() {
             .setNegativeButton("取消", null)
             .show()
     }
+
+    private lateinit var file: File;
+
+    private fun uploadFilesSequentially(items: List<MediaItem>, index: Int) {
+        if (index >= items.size) return
+
+        val item = items[index]
+        val uri = item.uri
+        val filePathColumn = arrayOf(MediaStore.MediaColumns.DATA)
+
+        contentResolver.query(uri, filePathColumn, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+                val filePath = cursor.getString(columnIndex)
+                file = File(filePath)
+
+                UploadService.uploadFileWithProgress(
+                    file = file,
+                    onProgress = { progress ->
+                        runOnUiThread {
+                            val pos = adapter.currentList.indexOfFirst { it.id == item.id }
+                            if (pos != -1) {
+                                adapter.updateUploadStatus(pos, UploadStatus.Uploading, progress)
+                            }
+                        }
+                    },
+                    onComplete = { success, message ->
+                        runOnUiThread {
+                            val pos = adapter.currentList.indexOfFirst { it.id == item.id }
+                            if (pos != -1) {
+                                if (success) {
+                                    adapter.updateUploadStatus(pos, UploadStatus.Completed)
+                                } else {
+                                    adapter.updateUploadStatus(pos, UploadStatus.Failed)
+                                }
+                                Toast.makeText(this@PictureBackupActivity, "${item.displayName} $message", Toast.LENGTH_SHORT).show()
+                            }
+
+                            // 继续上传下一个文件
+                            uploadFilesSequentially(items, index + 1)
+                        }
+                    }
+                )
+            } else {
+                runOnUiThread {
+                    Toast.makeText(this, "无法读取文件路径: ${item.displayName}", Toast.LENGTH_SHORT).show()
+                    uploadFilesSequentially(items, index + 1)
+                }
+            }
+        } ?: run {
+            runOnUiThread {
+                Toast.makeText(this, "无法打开文件: ${item.displayName}", Toast.LENGTH_SHORT).show()
+                uploadFilesSequentially(items, index + 1)
+            }
+        }
+    }
+
+
+
+    private fun startFileUpload(selectedItems: List<MediaItem>) {
+
+        for (item in selectedItems) {
+            val uri = item.uri
+            val filePathColumn = arrayOf(MediaStore.MediaColumns.DATA)
+            contentResolver.query(uri, filePathColumn, null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+                    val filePath = cursor.getString(columnIndex)
+                    val file = File(filePath)
+                    uploadManager.enqueueUpload(file)
+//                    UploadService.uploadFileWithProgress(
+//                        file = file,
+//                        onProgress = { progress ->
+//                            runOnUiThread {
+//                                val pos = adapter.currentList.indexOfFirst { it.id == item.id }
+//                                if (pos != -1) {
+//                                    adapter.updateUploadStatus(pos, UploadStatus.Uploading, progress)
+//                                }
+//                            }
+//                        },
+//                        onComplete = { success, message ->
+//                            runOnUiThread {
+//                                val pos = adapter.currentList.indexOfFirst { it.id == item.id }
+//                                if (pos != -1) {
+//                                    if (success) {
+//                                        adapter.updateUploadStatus(pos, UploadStatus.Completed)
+//                                    } else {
+//                                        adapter.updateUploadStatus(pos, UploadStatus.Failed)
+//                                    }
+//                                    Toast.makeText(this@PictureBackupActivity, item.displayName + " " + message, Toast.LENGTH_SHORT).show()
+//                                }
+//                            }
+//                        }
+//                    )
+                }
+            }
+        }
+    }
+
 
 }

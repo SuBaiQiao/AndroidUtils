@@ -114,4 +114,6 @@ dependencies {
     implementation("com.blankj:utilcodex:1.31.1")
 
     implementation("androidx.activity:activity-ktx:1.7.1")
+
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
 }

@@ -9,4 +9,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ant_design_primary">#1677FF</color>
+    <color name="ant_design_danger">#ff4d4f</color>
+    <color name="ant_design_success">#00ba6b</color>
+    <color name="ant_design_default">#E0E0E0</color>
+    <color name="blue_light">#8AB1EC</color>
+    <color name="green_light">#A5D6A7</color>
 </resources>

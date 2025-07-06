@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.subaiqiao.androidutils.R
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.adapter.PictureItemAdapter
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.entity.MediaItem
@@ -40,10 +41,10 @@ class PictureBackupActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var backButton: ImageButton
     private lateinit var refreshButton: ImageButton
-    private lateinit var uploadButton: Button
+    private lateinit var uploadButton: FloatingActionButton
     private lateinit var adapter: PictureItemAdapter
     private lateinit var rootLayout: ConstraintLayout
-    private lateinit var selectAllFab: ImageButton
+    private lateinit var selectAllFab: FloatingActionButton
 
     private val REQUEST_CODE_PERMISSION = 1001
 
@@ -64,7 +65,6 @@ class PictureBackupActivity : AppCompatActivity() {
                 // 控制上传按钮显示与隐藏
                 Log.d(TAG, "当前选中数量: $selectedCount")
                 uploadButton.visibility = if (selectedCount > 0) View.VISIBLE else View.GONE
-                updateRecyclerViewHeight()
                 updateSelectAllFab()
             },
             onItemCheckChanged = { position, isChecked ->
@@ -96,38 +96,10 @@ class PictureBackupActivity : AppCompatActivity() {
     }
 
     private fun updateSelectAllFab() {
-        if (adapter.isAllSelected()) {
-            Log.d(TAG, "全选")
-            selectAllFab.setImageResource(R.drawable.ic_uncheck_all) // 使用“取消全选”图标
-        } else {
-            Log.d(TAG, "非全选")
-            selectAllFab.setImageResource(R.drawable.ic_check_all)
-        }
-    }
-
-    private fun updateRecyclerViewHeight() {
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(rootLayout)
-
-        if (uploadButton.visibility == View.VISIBLE) {
-            constraintSet.connect(
-                R.id.recycler_view,
-                ConstraintSet.BOTTOM,
-                R.id.upload_button,
-                ConstraintSet.TOP,
-                resources.getDimensionPixelSize(R.dimen.margin_8dp)
-            )
-        } else {
-            constraintSet.connect(
-                R.id.recycler_view,
-                ConstraintSet.BOTTOM,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.BOTTOM,
-                resources.getDimensionPixelSize(R.dimen.margin_8dp)
-            )
-        }
-
-        constraintSet.applyTo(rootLayout)
+        val isAllSelected = adapter.isAllSelected()
+        selectAllFab.setImageResource(
+            if (isAllSelected) R.drawable.ic_uncheck_all else R.drawable.ic_check_all
+        )
     }
 
     private fun loadMediaItems() {

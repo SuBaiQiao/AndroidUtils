@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <style name="Theme.AndroidUtils" parent="android:Theme.Material.Light.NoActionBar" />-->
     <style name="Theme.AndroidUtils" parent="Theme.AppCompat.DayNight.NoActionBar" />
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">    <!-- Customize your theme here. --></style>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#1296db</item>
+<!--        状态栏颜色修改-->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+    </style>
 </resources>

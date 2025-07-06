@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase
 import com.subaiqiao.androidutils.modules.systemConfig.entity.SystemConfig
 import com.subaiqiao.androidutils.utils.db.DbHelper
 import com.subaiqiao.androidutils.utils.db.Tables
-import java.util.ArrayList
 
 class SystemConfigDao(context: Context) {
     private val dbHelper = DbHelper(context, "androidUtils.db", 1)

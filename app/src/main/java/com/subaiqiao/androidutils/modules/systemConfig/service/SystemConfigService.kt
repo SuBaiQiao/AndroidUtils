@@ -7,4 +7,6 @@ interface SystemConfigService {
     fun selectByCode(context: Context, code: String): SystemConfig
 
     fun updateById(context: Context, systemConfig: SystemConfig)
+
+    fun exportDatabase(context: Context)
 }

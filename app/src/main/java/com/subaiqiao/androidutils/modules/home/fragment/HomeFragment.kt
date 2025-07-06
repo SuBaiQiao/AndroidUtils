@@ -5,15 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import com.google.android.material.button.MaterialButton
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
@@ -25,6 +24,7 @@ import com.subaiqiao.androidutils.modules.home.placeholder.PlaceholderContent
 import com.subaiqiao.androidutils.modules.privacyData.contactPerson.ContactPersonActivity
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.activity.PictureBackupActivity
 import com.subaiqiao.androidutils.modules.privacyData.wifi.WifiManagerActivity
+import com.subaiqiao.androidutils.modules.systemConfig.service.SystemConfigServiceImpl
 import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivity
 
 /**
@@ -43,6 +43,8 @@ class HomeFragment : Fragment() {
     private lateinit var view: View
 
     private var columnCount = 1
+
+    private val systemConfigServiceImpl: SystemConfigServiceImpl = SystemConfigServiceImpl()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +89,7 @@ class HomeFragment : Fragment() {
         val mainActivityWifiManagerBtn: MaterialButton = view.findViewById(R.id.main_activity_wifi_manager_btn)
         // 照片信息备份按钮
         val mainActivityPictureBackupBtn: MaterialButton = view.findViewById(R.id.main_activity_picture_backup_btn)
+        val mainActivityExportDbBtn: MaterialButton = view.findViewById(R.id.main_activity_export_db_btn)
         mainActivityGotoVideoPlayerBtn.setOnClickListener {
             startActivity(Intent(context, VideoPlayerActivity::class.java))
         }
@@ -101,6 +104,10 @@ class HomeFragment : Fragment() {
         }
         mainActivityPictureBackupBtn.setOnClickListener {
             startActivity(Intent(context, PictureBackupActivity::class.java))
+        }
+        mainActivityExportDbBtn.setOnClickListener {
+            // 数据库导出
+            systemConfigServiceImpl.exportDatabase(requireContext())
         }
         mainActivityPermissoinsBtn.setOnClickListener {
             XXPermissions.with(this)

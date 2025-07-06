@@ -106,4 +106,12 @@ dependencies {
     implementation("com.leon:lfilepickerlibrary:1.8.0")
 
     implementation("com.roughike:bottom-bar:2.3.1")
+    // 图片展示框架：https://github.com/bumptech/glide
+    implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
+    annotationProcessor("com.github.bumptech.glide:compiler:5.0.0-rc01")
+
+    // 日志框架
+    implementation("com.blankj:utilcodex:1.31.1")
+
+    implementation("androidx.activity:activity-ktx:1.7.1")
 }

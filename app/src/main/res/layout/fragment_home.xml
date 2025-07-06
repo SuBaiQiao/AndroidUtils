@@ -94,7 +94,20 @@
         android:text="数据库导出"
         android:background="@drawable/ant_btn_primary_selector"
         android:textColor="#FFFFFF"
-        android:layout_below="@id/main_activity_wifi_manager_btn"
+        android:layout_below="@id/main_activity_picture_backup_btn"
+        android:textAllCaps="false"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        app:backgroundTint="@null"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_activity_import_db_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="数据库导入"
+        android:background="@drawable/ant_btn_primary_selector"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/main_activity_export_db_btn"
         android:textAllCaps="false"
         android:padding="12dp"
         android:layout_marginTop="8dp"

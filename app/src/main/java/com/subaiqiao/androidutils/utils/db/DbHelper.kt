@@ -4,12 +4,17 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 
 class DbHelper(context: Context, name: String, version: Int) : SQLiteOpenHelper (context, name, null, version){
 
+    companion object {
+        const val TAG = "DbHelper"
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
-        println("创建数据库")
+        Log.d(TAG, "onCreate: 创建数据库")
         db?.execSQL(Tables.CREATE_SYSTEM_CONFIG_TABLE)
     }
 

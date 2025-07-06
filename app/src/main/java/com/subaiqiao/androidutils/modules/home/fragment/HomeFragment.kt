@@ -1,8 +1,9 @@
 package com.subaiqiao.androidutils.modules.home.fragment
 
-import android.content.ContentValues.TAG
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,11 +27,15 @@ import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.activity.Pic
 import com.subaiqiao.androidutils.modules.privacyData.wifi.WifiManagerActivity
 import com.subaiqiao.androidutils.modules.systemConfig.service.SystemConfigServiceImpl
 import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivity
+import java.io.FileOutputStream
 
 /**
  * A fragment representing a list of Items.
  */
 class HomeFragment : Fragment() {
+
+    private val TAG = "首页"
+
 
     /**
      * 页面上下文
@@ -43,6 +48,8 @@ class HomeFragment : Fragment() {
     private lateinit var view: View
 
     private var columnCount = 1
+
+    private val REQUEST_CODE_IMPORT_DATABASE = 1001
 
     private val systemConfigServiceImpl: SystemConfigServiceImpl = SystemConfigServiceImpl()
 
@@ -89,7 +96,10 @@ class HomeFragment : Fragment() {
         val mainActivityWifiManagerBtn: MaterialButton = view.findViewById(R.id.main_activity_wifi_manager_btn)
         // 照片信息备份按钮
         val mainActivityPictureBackupBtn: MaterialButton = view.findViewById(R.id.main_activity_picture_backup_btn)
+        // 数据库导出
         val mainActivityExportDbBtn: MaterialButton = view.findViewById(R.id.main_activity_export_db_btn)
+        // 数据库导入
+        val mainActivityImportDbBtn: MaterialButton = view.findViewById(R.id.main_activity_import_db_btn)
         mainActivityGotoVideoPlayerBtn.setOnClickListener {
             startActivity(Intent(context, VideoPlayerActivity::class.java))
         }
@@ -108,6 +118,16 @@ class HomeFragment : Fragment() {
         mainActivityExportDbBtn.setOnClickListener {
             // 数据库导出
             systemConfigServiceImpl.exportDatabase(requireContext())
+        }
+        mainActivityImportDbBtn.setOnClickListener {
+            // 数据库导入
+            // 启动系统文件选择器
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "*/*"
+                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/x-sqlite3", "application/octet-stream"))
+            }
+            startActivityForResult(intent, REQUEST_CODE_IMPORT_DATABASE)
         }
         mainActivityPermissoinsBtn.setOnClickListener {
             XXPermissions.with(this)
@@ -142,12 +162,51 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_IMPORT_DATABASE && resultCode == Activity.RESULT_OK) {
+            data?.data?.also { uri ->
+                importDatabase(requireContext(), uri)
+            }
+        }
+    }
+
+    private fun importDatabase(context: Context, uri: Uri) {
+        try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val dbFile = context.getDatabasePath("androidUtils.db")
+            Log.d(TAG, "目标数据库路径: ${dbFile.absolutePath}")
+            // 删除旧数据库（如果存在）
+            if (dbFile.exists()) {
+                Log.d(TAG, "importDatabase: 删除原始数据库")
+                val result = dbFile.delete()
+                Log.d(TAG, "importDatabase: 数据库删除结果 + $result")
+            }
+            // 创建父目录（如果不存在）
+            dbFile.parentFile?.mkdirs()
+            // 写入新数据库文件
+            val outputStream = FileOutputStream(dbFile)
+            val buffer = ByteArray(1024)
+            var length: Int
+            while (inputStream!!.read(buffer) > 0) {
+                length = inputStream.read(buffer)
+                outputStream.write(buffer, 0, length)
+            }
+            inputStream.close()
+            outputStream.flush()
+            outputStream.close()
+            Toast.makeText(context, "数据库导入成功", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "数据库导入失败: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
     companion object {
 
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             HomeFragment().apply {

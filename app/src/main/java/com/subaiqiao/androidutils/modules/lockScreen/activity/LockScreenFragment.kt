@@ -4,13 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.subaiqiao.androidutils.R
@@ -26,6 +27,10 @@ import kotlinx.coroutines.launch
  * create an instance of this fragment.
  */
 class LockScreenFragment : Fragment() {
+
+    companion object {
+        private const val TAG = "锁屏页面"
+    }
     // 在一个Activity内部
     private val lifecycleOwner: LifecycleOwner = this
 
@@ -87,7 +92,7 @@ class LockScreenFragment : Fragment() {
 
     private fun initNetworkBaseUrl(): String {
         val systemConfig = systemConfigServiceImpl.selectByCode(context, "NETWORK_BASE_URL")
-        println("读取到网络连接地址：" + systemConfig.value)
+        Log.d(TAG, "读取到网络连接地址: " + systemConfig.value)
         return systemConfig.value
     }
 

@@ -1,9 +1,8 @@
 package com.subaiqiao.androidutils
 
-import android.graphics.Color
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import com.roughike.bottombar.BottomBar
 import com.subaiqiao.androidutils.modules.home.fragment.HomeFragment
@@ -13,7 +12,10 @@ import com.subaiqiao.androidutils.modules.setting.activity.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private val fragments = HashMap<Int, Fragment>() // 用于保存 Fragments 的映射
+    /**
+     * 用于保存 Fragments 的映射
+     */
+    private val fragments = HashMap<Int, Fragment>()
     private lateinit var bottomBar: BottomBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         fragments[1] = HomeFragment()
         fragments[2] = SettingsFragment()
         bottomBar.setDefaultTab(R.id.tab_2)
-        bottomBar.setActiveTabColor(Color.parseColor("#395cf5"))
+        bottomBar.setActiveTabColor("#395cf5".toColorInt())
         bottomBar.setOnTabSelectListener {tableId ->
             println(tableId)
             if (tableId == R.id.tab_1) {

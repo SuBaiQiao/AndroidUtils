@@ -42,5 +42,12 @@
         android:layout_below="@id/main_activity_contact_person_btn"
         android:id="@+id/main_activity_wifi_manager_btn"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="照片信息备份"
+        android:layout_below="@id/main_activity_wifi_manager_btn"
+        android:id="@+id/main_activity_picture_backup_btn"/>
+
 
 </RelativeLayout>

@@ -22,6 +22,7 @@ import com.subaiqiao.androidutils.modules.camera.activity.CameraActivity
 import com.subaiqiao.androidutils.modules.home.adapter.HomeRecyclerViewAdapter
 import com.subaiqiao.androidutils.modules.home.placeholder.PlaceholderContent
 import com.subaiqiao.androidutils.modules.privacyData.contactPerson.ContactPersonActivity
+import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.activity.PictureBackupActivity
 import com.subaiqiao.androidutils.modules.privacyData.wifi.WifiManagerActivity
 import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivity
 
@@ -30,9 +31,15 @@ import com.subaiqiao.androidutils.modules.videoPlayer.activity.VideoPlayerActivi
  */
 class HomeFragment : Fragment() {
 
+    /**
+     * 页面上下文
+     */
     private lateinit var context: Context
-    private lateinit var view: View
 
+    /**
+     * 页面视图
+     */
+    private lateinit var view: View
 
     private var columnCount = 1
 
@@ -66,12 +73,19 @@ class HomeFragment : Fragment() {
         return view
     }
 
-    fun init() {
+    private fun init() {
+        // 视频播放
         val mainActivityGotoVideoPlayerBtn: Button = view.findViewById(R.id.main_activity_goto_video_player_btn)
+        // 拍照
         val mainActivityCameraBtn: Button = view.findViewById(R.id.main_activity_camera_btn)
+        // 权限授予
         val mainActivityPermissoinsBtn: Button = view.findViewById(R.id.main_activity_permissoins_btn)
+        // 通讯录读取
         val mainActivityContactPersonBtn: Button = view.findViewById(R.id.main_activity_contact_person_btn)
+        // 无线网络信息
         val mainActivityWifiManagerBtn: Button = view.findViewById(R.id.main_activity_wifi_manager_btn)
+        // 照片信息备份按钮
+        val mainActivityPictureBackupBtn: Button = view.findViewById(R.id.main_activity_picture_backup_btn)
         mainActivityGotoVideoPlayerBtn.setOnClickListener {
             startActivity(Intent(context, VideoPlayerActivity::class.java))
         }
@@ -83,6 +97,9 @@ class HomeFragment : Fragment() {
         }
         mainActivityWifiManagerBtn.setOnClickListener {
             startActivity(Intent(context, WifiManagerActivity::class.java))
+        }
+        mainActivityPictureBackupBtn.setOnClickListener {
+            startActivity(Intent(context, PictureBackupActivity::class.java))
         }
         mainActivityPermissoinsBtn.setOnClickListener {
             XXPermissions.with(this)

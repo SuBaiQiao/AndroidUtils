@@ -21,14 +21,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.WorkInfo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.subaiqiao.androidutils.R
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.adapter.PictureItemAdapter
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.entity.MediaItem
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.entity.UploadStatus
-import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.service.UploadManager
 import com.subaiqiao.androidutils.modules.privacyData.pictureBackup.service.UploadService
+import com.subaiqiao.androidutils.utils.queue.SerialTaskQueue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -41,8 +42,6 @@ class PictureBackupActivity : AppCompatActivity() {
     }
 
     private val DATE_FORMATTER = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-
-    lateinit var uploadManager: UploadManager;
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var backButton: ImageButton
@@ -64,7 +63,6 @@ class PictureBackupActivity : AppCompatActivity() {
         uploadButton = findViewById(R.id.upload_button)
         backButton = findViewById(R.id.back_button)
         selectAllFab = findViewById(R.id.select_all_fab)
-        uploadManager = UploadManager(applicationContext)
         // 初始化适配器
         adapter = PictureItemAdapter(
             onSelectedCountChanged = { selectedCount ->
@@ -107,7 +105,6 @@ class PictureBackupActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             startFileUpload(selectedItems)
-//            uploadFilesSequentially(selectedItems, 0)
         }
     }
 
@@ -283,66 +280,7 @@ class PictureBackupActivity : AppCompatActivity() {
             .show()
     }
 
-    private lateinit var file: File;
-
-    private fun uploadFilesSequentially(items: List<MediaItem>, index: Int) {
-        if (index >= items.size) return
-
-        val item = items[index]
-        val uri = item.uri
-        val filePathColumn = arrayOf(MediaStore.MediaColumns.DATA)
-
-        contentResolver.query(uri, filePathColumn, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-                val filePath = cursor.getString(columnIndex)
-                file = File(filePath)
-
-                UploadService.uploadFileWithProgress(
-                    file = file,
-                    onProgress = { progress ->
-                        runOnUiThread {
-                            val pos = adapter.currentList.indexOfFirst { it.id == item.id }
-                            if (pos != -1) {
-                                adapter.updateUploadStatus(pos, UploadStatus.Uploading, progress)
-                            }
-                        }
-                    },
-                    onComplete = { success, message ->
-                        runOnUiThread {
-                            val pos = adapter.currentList.indexOfFirst { it.id == item.id }
-                            if (pos != -1) {
-                                if (success) {
-                                    adapter.updateUploadStatus(pos, UploadStatus.Completed)
-                                } else {
-                                    adapter.updateUploadStatus(pos, UploadStatus.Failed)
-                                }
-                                Toast.makeText(this@PictureBackupActivity, "${item.displayName} $message", Toast.LENGTH_SHORT).show()
-                            }
-
-                            // 继续上传下一个文件
-                            uploadFilesSequentially(items, index + 1)
-                        }
-                    }
-                )
-            } else {
-                runOnUiThread {
-                    Toast.makeText(this, "无法读取文件路径: ${item.displayName}", Toast.LENGTH_SHORT).show()
-                    uploadFilesSequentially(items, index + 1)
-                }
-            }
-        } ?: run {
-            runOnUiThread {
-                Toast.makeText(this, "无法打开文件: ${item.displayName}", Toast.LENGTH_SHORT).show()
-                uploadFilesSequentially(items, index + 1)
-            }
-        }
-    }
-
-
-
     private fun startFileUpload(selectedItems: List<MediaItem>) {
-
         for (item in selectedItems) {
             val uri = item.uri
             val filePathColumn = arrayOf(MediaStore.MediaColumns.DATA)
@@ -351,35 +289,49 @@ class PictureBackupActivity : AppCompatActivity() {
                     val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
                     val filePath = cursor.getString(columnIndex)
                     val file = File(filePath)
-                    uploadManager.enqueueUpload(file)
-//                    UploadService.uploadFileWithProgress(
-//                        file = file,
-//                        onProgress = { progress ->
-//                            runOnUiThread {
-//                                val pos = adapter.currentList.indexOfFirst { it.id == item.id }
-//                                if (pos != -1) {
-//                                    adapter.updateUploadStatus(pos, UploadStatus.Uploading, progress)
-//                                }
-//                            }
-//                        },
-//                        onComplete = { success, message ->
-//                            runOnUiThread {
-//                                val pos = adapter.currentList.indexOfFirst { it.id == item.id }
-//                                if (pos != -1) {
-//                                    if (success) {
-//                                        adapter.updateUploadStatus(pos, UploadStatus.Completed)
-//                                    } else {
-//                                        adapter.updateUploadStatus(pos, UploadStatus.Failed)
-//                                    }
-//                                    Toast.makeText(this@PictureBackupActivity, item.displayName + " " + message, Toast.LENGTH_SHORT).show()
-//                                }
-//                            }
-//                        }
-//                    )
+                    // 提交到串行队列中执行
+                    Log.d(TAG, "${item.displayName} 已添加上传队列")
+                    SerialTaskQueue.enqueue {
+                        uploadFileSuspend(item, file)
+                    }
                 }
             }
         }
     }
+
+    private suspend fun uploadFileSuspend(item: MediaItem, file: File) {
+        val pos = adapter.currentList.indexOfFirst { it.id == item.id }
+
+        return withContext(Dispatchers.IO) {
+            try {
+                Log.d(TAG, "${item.displayName} 开始上传")
+                val success = UploadService.uploadFileInForeground(file)
+                Log.d(TAG, "${item.displayName} 完成上传")
+                withContext(Dispatchers.Main) {
+                    if (success) {
+                        if (pos != -1) {
+                            adapter.updateUploadStatus(pos, UploadStatus.Completed)
+                        }
+                        Toast.makeText(this@PictureBackupActivity, "${item.displayName} 上传成功", Toast.LENGTH_SHORT).show()
+                    } else {
+                        if (pos != -1) {
+                            adapter.updateUploadStatus(pos, UploadStatus.Failed)
+                        }
+                        Toast.makeText(this@PictureBackupActivity, "${item.displayName} 上传失败", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "uploadFileSuspend: ${item.displayName} 上传异常")
+                withContext(Dispatchers.Main) {
+                    if (pos != -1) {
+                        adapter.updateUploadStatus(pos, UploadStatus.Failed)
+                    }
+                    Toast.makeText(this@PictureBackupActivity, "${item.displayName} 上传异常: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 
 
 }

@@ -16,7 +16,11 @@ import java.io.FileInputStream
 import java.io.IOException
 
 object UploadService {
-    private val client = OkHttpClient()
+    private val client = OkHttpClient.Builder()
+        .connectTimeout(0, java.util.concurrent.TimeUnit.MILLISECONDS)
+        .readTimeout(0, java.util.concurrent.TimeUnit.MILLISECONDS)
+        .writeTimeout(0, java.util.concurrent.TimeUnit.MILLISECONDS)
+        .build()
 
     fun uploadFileWithProgress(
         file: File,
@@ -53,7 +57,7 @@ object UploadService {
         }.build()
 
         val request = Request.Builder()
-            .url("http://192.168.154.131:8080/api/file/upload")
+            .url("http://192.168.137.1:8080/api/file/upload")
             .post(body)
             .build()
 
@@ -101,7 +105,7 @@ object UploadService {
             }.build()
 
             val request = Request.Builder()
-                .url("http://192.168.154.131:8080/api/file/upload")
+                .url("http://192.168.137.1:8080/api/file/upload")
                 .post(body)
                 .build()
 

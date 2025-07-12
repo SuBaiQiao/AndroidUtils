@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt") // 启用 kapt
 }
 
 android {
@@ -17,6 +18,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+        // Room 配置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
         }
     }
 
@@ -76,8 +83,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    debugImplementation("androidx.appcompat:appcompat:1.7.0")
-    debugImplementation("androidx.preference:preference-ktx:1.2.1")
+    debugImplementation(libs.androidx.appcompat.v170)
+    debugImplementation(libs.androidx.preference.ktx)
 
     implementation(libs.retrofit) // 使用最新版本
     implementation(libs.okhttp) // 使用最新版本
@@ -86,34 +93,50 @@ dependencies {
     // 如果你需要处理网络请求的日志，可以添加OkHttp的日志拦截器
     implementation(libs.logging.interceptor)
 
-    implementation("com.shuyu:gsyVideoPlayer-java:8.1.2")
+    implementation(libs.gsyvideoplayer.java)
 
     //是否需要ExoPlayer模式
-    implementation("com.shuyu:GSYVideoPlayer-exo2:8.1.2")
+    implementation(libs.gsyvideoplayer.exo2)
 
     //是否需要AliPlayer模式
 //    implementation("com.shuyu:GSYVideoPlayer-aliplay:8.1.2")
 
     //根据你的需求ijk模式的so
-    implementation("com.shuyu:gsyVideoPlayer-arm64:8.1.2")
-    implementation("com.shuyu:gsyVideoPlayer-armv7a:8.1.2")
-    implementation("com.shuyu:gsyVideoPlayer-armv5:8.1.2")
-    implementation("com.shuyu:gsyVideoPlayer-x86:8.1.2")
-    implementation("com.shuyu:gsyVideoPlayer-x64:8.1.2")
+    implementation(libs.gsyvideoplayer.arm64)
+    implementation(libs.gsyvideoplayer.armv7a)
+    implementation(libs.gsyvideoplayer.armv5)
+    implementation(libs.gsyvideoplayer.x86)
+    implementation(libs.gsyvideoplayer.x64)
 
     // 权限请求框架：https://github.com/getActivity/XXPermissions
-    implementation("com.github.getActivity:XXPermissions:18.63")
-    implementation("com.leon:lfilepickerlibrary:1.8.0")
+    implementation(libs.xxpermissions)
+    implementation(libs.lfilepickerlibrary)
 
-    implementation("com.roughike:bottom-bar:2.3.1")
+    implementation(libs.roughike.bottom.bar)
     // 图片展示框架：https://github.com/bumptech/glide
-    implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
-    annotationProcessor("com.github.bumptech.glide:compiler:5.0.0-rc01")
+    implementation(libs.github.glide)
+    annotationProcessor(libs.compiler)
 
     // 日志框架
-    implementation("com.blankj:utilcodex:1.31.1")
+    implementation(libs.utilcodex)
 
-    implementation("androidx.activity:activity-ktx:1.7.1")
+    implementation(libs.androidx.activity.ktx)
 
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation(libs.androidx.work.runtime.ktx)
+
+    // Room Database
+    implementation(libs.androidx.room.runtime)
+    // Room with Kotlin Extensions (for coroutines & flow)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // LiveData
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+// 留一个，怕忘记怎么写
+//    implementation("androidx.activity:activity-ktx:1.7.1")
 }

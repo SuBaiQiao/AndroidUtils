@@ -1,11 +1,20 @@
 [versions]
+activityKtx = "1.7.1"
 agp = "8.4.0"
+appcompatVersion = "1.7.0"
+bottomBarVersion = "2.3.1"
 converterGson = "2.9.0"
+glideVersion = "5.0.0-rc01"
+gsyvideoplayerArm64 = "8.1.2"
+gsyvideoplayerArmv7a = "8.1.2"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
+kotlinxCoroutinesAndroid = "1.9.0"
+kotlinxCoroutinesCore = "1.9.0"
+lfilepickerlibrary = "1.8.0"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2023.08.00"
@@ -20,10 +29,30 @@ legacySupportV4 = "1.0.0"
 recyclerview = "1.3.0"
 preference = "1.2.0"
 preferenceKtx = "1.2.1"
+utilcodex = "1.31.1"
+workRuntimeKtx = "2.8.1"
+roomRuntime = "2.6.0"
+xxpermissions = "18.63"
 
 [libraries]
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
+androidx-appcompat-v170 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glideVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+github-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+gsyvideoplayer-armv5 = { module = "com.shuyu:gsyVideoPlayer-armv5", version.ref = "gsyvideoplayerArm64" }
+gsyvideoplayer-armv7a = { module = "com.shuyu:gsyVideoPlayer-armv7a", version.ref = "gsyvideoplayerArmv7a" }
+gsyvideoplayer-arm64 = { module = "com.shuyu:gsyVideoPlayer-arm64", version.ref = "gsyvideoplayerArm64" }
+gsyvideoplayer-exo2 = { module = "com.shuyu:GSYVideoPlayer-exo2", version.ref = "gsyvideoplayerArm64" }
+gsyvideoplayer-java = { module = "com.shuyu:gsyVideoPlayer-java", version.ref = "gsyvideoplayerArm64" }
+gsyvideoplayer-x64 = { module = "com.shuyu:gsyVideoPlayer-x64", version.ref = "gsyvideoplayerArm64" }
+gsyvideoplayer-x86 = { module = "com.shuyu:gsyVideoPlayer-x86", version.ref = "gsyvideoplayerArm64" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -37,6 +66,9 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+lfilepickerlibrary = { module = "com.leon:lfilepickerlibrary", version.ref = "lfilepickerlibrary" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -48,6 +80,9 @@ androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceKtx" }
+roughike-bottom-bar = { module = "com.roughike:bottom-bar", version.ref = "bottomBarVersion" }
+utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" }
+xxpermissions = { module = "com.github.getActivity:XXPermissions", version.ref = "xxpermissions" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

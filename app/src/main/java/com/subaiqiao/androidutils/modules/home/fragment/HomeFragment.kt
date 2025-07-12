@@ -19,6 +19,7 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.subaiqiao.androidutils.R
+import com.subaiqiao.androidutils.modules.app.transactionEdit.activity.TransactionEditActivity
 import com.subaiqiao.androidutils.modules.camera.activity.CameraActivity
 import com.subaiqiao.androidutils.modules.home.adapter.HomeRecyclerViewAdapter
 import com.subaiqiao.androidutils.modules.home.placeholder.PlaceholderContent
@@ -110,7 +111,7 @@ class HomeFragment : Fragment() {
             startActivity(Intent(context, ContactPersonActivity::class.java))
         }
         mainActivityWifiManagerBtn.setOnClickListener {
-            startActivity(Intent(context, WifiManagerActivity::class.java))
+            startActivity(Intent(context, TransactionEditActivity::class.java))
         }
         mainActivityPictureBackupBtn.setOnClickListener {
             startActivity(Intent(context, PictureBackupActivity::class.java))
